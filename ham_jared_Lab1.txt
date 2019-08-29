@@ -1,0 +1,3 @@
+austin:~/CS457$ python3 cs457_echoClient.py 
+Received b'Hello, Jared'
+
