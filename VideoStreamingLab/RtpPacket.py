@@ -1,5 +1,6 @@
 import sys
 from time import time
+import struct
 HEADER_SIZE = 12
 
 class RtpPacket:	
@@ -19,6 +20,20 @@ class RtpPacket:
 		
 		# header[0] = ...
 		# ...
+		header[0] = 2 << 7
+		header[1] = 26
+		header[2] = seqnum & int('ff00', 16)
+		header[3] = seqnum & int('00ff', 16)
+		header[4] = time() & int('ff000000', 16)
+		header[5] = time() & int('00ff0000', 16)
+		header[6] = time() & int('0000ff00', 16)
+		header[7] = time() & int('000000ff', 16)
+		header[8] = ssrc & int('ff000000', 16)
+		header[9] = ssrc & int('00ff0000', 16)
+		header[10] = ssrc & int('0000ff00', 16)
+		header[11] = ssrc & int('000000ff', 16)
+
+
 		
 		# Get the payload from the argument
 		# self.payload = ...
