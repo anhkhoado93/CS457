@@ -59,6 +59,7 @@ class ServerWorker:
 					self.clientInfo['videoStream'] = VideoStream(filename)
 					self.state = self.READY
 				except IOError:
+					print("IO Error")
 					self.replyRtsp(self.FILE_NOT_FOUND_404, seq[1])
 				
 				# Generate a randomized RTSP session ID
@@ -69,6 +70,7 @@ class ServerWorker:
 				
 				# Get the RTP/UDP port from the last line
 				self.clientInfo['rtpPort'] = request[2].split(' ')[3]
+
 		
 		# Process PLAY request 		
 		elif requestType == self.PLAY:
@@ -125,9 +127,9 @@ class ServerWorker:
 					self.clientInfo['rtpSocket'].sendto(self.makeRtp(data, frameNumber),(address,port))
 				except:
 					print("Connection Error")
-					#print('-'*60)
-					#traceback.print_exc(file=sys.stdout)
-					#print('-'*60)
+					print('-'*60)
+					traceback.print_exc(file=sys.stdout)
+					print('-'*60)
 
 	def makeRtp(self, payload, frameNbr):
 		"""RTP-packetize the video data."""
